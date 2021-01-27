@@ -1,0 +1,16 @@
+import "tfplan/v2" as tfplan
+
+az_instances = filter tfplan.resource_changes as _, rc {
+	rc.type is "azurerm_linux_virtual_machine" and
+		(rc.change.actions contains "create" or rc.change.actions is ["update"])
+}
+
+instance_tags = rule {
+	all az_instances as _, instances {
+		instances.change.after.admin_ssh_key is not null and instances.change.after.disable_password_authentication is true
+	}
+}
+
+main = rule {
+	instance_tags
+}
