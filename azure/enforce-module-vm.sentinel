@@ -6,21 +6,12 @@ az_instances = filter tfplan.resource_changes as _, rc {
 		(rc.change.actions contains "create" or rc.change.actions is ["update"])
 }
 
-/*
-instance_tags = rule {
-	all az_instances as _, instances {
-		instances.module_address is not ""
-	}
-}
-*/
-
 linux_modules = filter tfconfig.module_calls as index, mc {
 	mc.module_address is "" and mc.source is "app.terraform.io/csmith/webserver-azure/azurerm"
 }
 
 list = []
 for linux_modules as mod {
-	print(mod)
 	append(list, "module." + mod)
 }
 
