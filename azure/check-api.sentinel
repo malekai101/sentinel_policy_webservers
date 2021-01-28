@@ -1,0 +1,6 @@
+import "http"
+import "json"
+
+req = http.request("https://yesno.wtf/api").with_header("Accept", "application/json")
+resp = json.unmarshal(http.get(req).body)
+main = rule { resp["answer"] in ["yes", "no"] }

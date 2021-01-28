@@ -5,3 +5,7 @@ policy "enforce-ssh" {
 policy "enforce-module-vm" {
     enforcement_level = "soft-mandatory"
 }
+
+policy "check-api" {
+    enforcement_level = "advisory"
+}
